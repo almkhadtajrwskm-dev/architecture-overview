@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 هدايا الحظ - Emoji Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* عنوان رئيسي */
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        /* الإيموجي المتحركة */
+        .emoji {
+            position: absolute;
+            font-size: 4em;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* تأثيرات الحركة المختلفة */
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(5deg);
+            }
+        }
+
+        .bounce {
+            animation: bounce 0.8s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-50px);
+            }
+        }
+
+        .spin {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+        }
+
+        .wiggle {
+            animation: wiggle 0.5s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% {
+                transform: rotateZ(-3deg);
+            }
+            50% {
+                transform: rotateZ(3deg);
+            }
+        }
+
+        .swing {
+            animation: swing 2s ease-in-out infinite;
+            transform-origin: top center;
+        }
+
+        @keyframes swing {
+            0%, 100% {
+                transform: rotateZ(-10deg);
+            }
+            50% {
+                transform: rotateZ(10deg);
+            }
+        }
+
+        /* تأثير اللمس/الكلك */
+        .emoji:hover {
+            filter: brightness(1.3);
+            transform: scale(1.2) !important;
+        }
+
+        .emoji.clicked {
+            animation: explode 0.5s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* صندوق المعلومات */
+        .info-box {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-box h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .info-box p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* زر التحديث */
+        .refresh-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 2em;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: rotateSpin 2s linear infinite;
+            z-index: 15;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes rotateSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* نص تعليمات */
+        .instructions {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: white;
+            font-size: 1.2em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* خلفية متحركة */
+        .background-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .background-animation::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, white 0%, transparent 70%);
+            border-radius: 50%;
+            animation: moveBackground 20s ease-in-out infinite;
+            top: -100px;
+            left: 10%;
+        }
+
+        .background-animation::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, white 0%, transparent 70%);
+            border-radius: 50%;
+            animation: moveBackground2 15s ease-in-out infinite;
+            bottom: -50px;
+            right: 10%;
+        }
+
+        @keyframes moveBackground {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(50px); }
+        }
+
+        @keyframes moveBackground2 {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-50px); }
+        }
+
+        /* جزيئات صغيرة */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .particle.star {
+            font-size: 1.5em;
+            animation: twinkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* شاشة الترحيب */
+        .welcome-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            animation: fadeOut 0.5s ease-out 3s forwards;
+        }
+
+        .welcome-screen.hidden {
+            display: none;
+        }
+
+        .welcome-emoji {
+            font-size: 8em;
+            margin-bottom: 20px;
+            animation: bounce 0.8s ease-in-out infinite;
+        }
+
+        .welcome-text {
+            color: white;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .welcome-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* وسائط استجابية */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2em;
+            }
+
+            .emoji {
+                font-size: 3em;
+            }
+
+            .info-box {
+                padding: 20px 30px;
+                bottom: 30px;
+                max-width: 90%;
+            }
+
+            .info-box h2 {
+                font-size: 1.3em;
+            }
+
+            .info-box p {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+
+    <!-- شاشة الترحيب -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-emoji">🎁</div>
+        <div class="welcome-text">هدايا الحظ الفاخرة</div>
+        <div class="welcome-subtitle">اضغط على الإيموجي لاستكشاف الحظ والمتعة!</div>
+    </div>
+
+    <!-- الحاوية الرئيسية -->
+    <div class="container" id="container">
+        <div class="instructions">💡 اضغط على الإيموجي لاستكشاف سحر الحظ!</div>
+
+        <button class="refresh-btn" id="refreshBtn" title="تحديث الإيموجي">🔄</button>
+
+        <div class="title" id="mainTitle">✨ هدايا الحظ الفاخرة ✨</div>
+
+        <div class="info-box" id="infoBox">
+            <h2 id="fortuneTitle">مرحباً بك</h2>
+            <p id="fortuneText">اضغط على أي إيموجي متحركة لاستكشاف هديتك المحظوظة!</p>
+        </div>
+    </div>
+
+    <script>
+        // قائمة الإيموجي المختلفة
+        const emojis = ['🎁', '🎉', '✨', '🌟', '💎', '🎯', '🏆', '🎊', '⭐', '🌈', '🦄', '🎪', '🎭', '🎨', '🎬', '🎸', '🎺', '🎻', '🥁', '🎲'];
+        
+        // رسائل الحظ والهدايا الفاخرة
+        const fortunes = [
+            { title: '🎁 هدية الحظ الذهبية', text: 'اليوم يحمل لك مفاجأة جميلة! استعد لشيء رائع قريباً جداً.' },
+            { title: '💎 جوهرة النجاح', text: 'نجاحك اليوم سيكون البداية لمرحلة ذهبية في حياتك!' },
+            { title: '🌟 نجم الحظ', text: 'أنت محاط بالحظ الطيب! كل خطواتك ستقودك للنجاح.' },
+            { title: '🏆 تاج الفائزين', text: 'أنت مولود للنجاح! اليوم يوم انتصاراتك بدأ من الآن.' },
+            { title: '🎯 هدفك المحقق', text: 'كل ما تصبو إليه قريب جداً. استمر في المحاولة، النصر قادم!' },
+            { title: '✨ براق الحظ', text: 'تألقك الداخلي سيجذب لك كل الخير! كن نفسك دائماً.' },
+            { title: '🌈 قوس قزح الأمل', text: 'بعد كل غيم سحابة ذهبية. أيامك القادمة ستكون مشرقة!' },
+            { title: '🎊 احتفالك ينتظرك', text: 'استعد للاحتفال! سخبار سارة ستصلك قريباً جداً.' },
+            { title: '⭐ نجم مميز', text: 'أنت شخص استثنائي، والعالم سيكتشف هذا قريباً!' },
+            { title: '🦄 الحلم الساحر', text: 'أحلامك ليست بعيدة الآن. اعمل بذكاء وستحقق المستحيل!' },
+            { title: '🎪 سيرك المتعة', text: 'الحياة احتفال جميل! استمتع بكل لحظة اليوم.' },
+            { title: '🎭 مسرح النجاح', text: 'أنت نجم في مسرح الحياة! كل الأضواء عليك اليوم.' },
+            { title: '🎨 لوحة الإبداع', text: 'إبداعك سيفتح لك أبواباً جديدة. ثق بموهبتك!' },
+            { title: '🎬 فيلمك الرائع', text: 'قصتك الناجحة تبدأ من الآن. أنت بطل روايتك الخاصة!' },
+            { title: '🎸 إيقاع النجاح', text: 'أنت في الوقت المناسب! توافق كوني رائع ينتظرك.' },
+            { title: '🥁 طبل الحظ', text: 'اسمع نداء الحظ! اليوم يوم تحولات إيجابية في حياتك.' },
+            { title: '🎲 نرد الحظ', text: 'الحظ معك اليوم! كل خيارتك ستكون صحيحة.' },
+            { title: '💫 وميض السعادة', text: 'ابتسامتك اليوم ستجذب السعادة حولك من كل الاتجاهات!' },
+            { title: '🌠 شهاب الأمل', text: 'أحلامك الكبيرة تتحول إلى واقع. ركز على هدفك!' },
+            { title: '🎀 هدية الملوك', text: 'أنت تستحق الأفضل! اليوم سيثبت هذه الحقيقة.' }
+        ];
+
+        // تأثيرات الحركة
+        const animations = ['float', 'bounce', 'spin', 'pulse', 'wiggle', 'swing'];
+
+        // دالة لإنشاء إيموجي عشوائي
+        function createEmoji() {
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            // موضع عشوائي
+            emoji.style.left = Math.random() * 90 + 5 + '%';
+            emoji.style.top = Math.random() * 80 + 10 + '%';
+            
+            // تأثير حركة عشوائي
+            const animation = animations[Math.floor(Math.random() * animations.length)];
+            emoji.classList.add(animation);
+            
+            // تأخير عشوائي للحركة
+            emoji.style.animationDelay = Math.random() * 2 + 's';
+            
+            // إضافة مستمع للنقر
+            emoji.addEventListener('click', (e) => {
+                e.stopPropagation();
+                clickEmoji(emoji);
+            });
+
+            document.getElementById('container').appendChild(emoji);
+            return emoji;
+        }
+
+        // دالة للتعامل مع نقر الإيموجي
+        function clickEmoji(emoji) {
+            // تأثير الانفجار
+            emoji.classList.add('clicked');
+            
+            // عرض الحظ العشوائي
+            showFortune();
+            
+            // إنشاء جزيئات احتفالية
+            createParticles(emoji);
+            
+            // حذف الإيموجي بعد التأثير
+            setTimeout(() => emoji.remove(), 500);
+            
+            // إنشاء إيموجي جديد
+            setTimeout(() => createEmoji(), 500);
+
+            // صوت احتفالي (اختياري)
+            playSound();
+        }
+
+        // دالة لعرض رسالة الحظ
+        function showFortune() {
+            const fortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+            document.getElementById('fortuneTitle').textContent = fortune.title;
+            document.getElementById('fortuneText').textContent = fortune.text;
+            
+            // تأثير الظهور
+            const infoBox = document.getElementById('infoBox');
+            infoBox.style.animation = 'none';
+            setTimeout(() => {
+                infoBox.style.animation = 'titlePulse 0.5s ease-in-out';
+            }, 10);
+        }
+
+        // دالة لإنشاء جزيئات احتفالية
+        function createParticles(element) {
+            const rect = element.getBoundingClientRect();
+            const particleEmojis = ['✨', '⭐', '🌟', '💫', '🎉', '🎊'];
+            
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle star';
+                particle.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+                particle.style.left = rect.left + 'px';
+                particle.style.top = rect.top + 'px';
+                
+                // اتجاه عشوائي
+                const angle = (Math.PI * 2 * i) / 8;
+                const velocity = 5 + Math.random() * 5;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                document.body.appendChild(particle);
+                
+                let x = rect.left;
+                let y = rect.top;
+                let life = 1;
+                
+                const animate = () => {
+                    x += vx;
+                    y += vy;
+                    life -= 0.02;
+                    
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.opacity = life;
+                    
+                    if (life > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        particle.remove();
+                    }
+                };
+                
+                animate();
+            }
+        }
+
+        // دالة لتشغيل صوت احتفالي (اختياري)
+        function playSound() {
+            // يمكنك إضافة صوت هنا إذا كنت تريد
+            // const audio = new Audio('path/to/celebration.mp3');
+            // audio.play();
+        }
+
+        // دالة لتحديث الإيموجي
+        function refreshEmojis() {
+            const emojisOnScreen = document.querySelectorAll('.emoji');
+            emojisOnScreen.forEach(emoji => emoji.remove());
+            
+            for (let i = 0; i < 10; i++) {
+                createEmoji();
+            }
+        }
+
+        // إضافة جزيئات نجمية في الخلفية
+        function createBackgroundStars() {
+            for (let i = 0; i < 20; i++) {
+                const star = document.createElement('div');
+                star.className = 'particle star';
+                star.textContent = '⭐';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.opacity = Math.random() * 0.5 + 0.2;
+                document.body.appendChild(star);
+            }
+        }
+
+        // إزالة شاشة الترحيب بعد 3 ثوان
+        setTimeout(() => {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+        }, 3000);
+
+        // مستمع زر التحديث
+        document.getElementById('refreshBtn').addEventListener('click', refreshEmojis);
+
+        // إنشاء إيموجي أولية عند التحميل
+        window.addEventListener('load', () => {
+            createBackgroundStars();
+            for (let i = 0; i < 10; i++) {
+                createEmoji();
+            }
+            showFortune();
+        });
+
+        // حدث لتحديث الإيموجي عند تغيير حجم النافذة
+        window.addEventListener('resize', () => {
+            // الحفاظ على التوازن
+        });
+    </script>
+</body>
+</html>
